@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobDesk - Find Your Dream Job</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.8;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .search-form {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 50px;
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #ff5252;
+        }
+
+        /* Filters Section */
+        .filters {
+            background: white;
+            padding: 2rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .filters-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            min-width: 150px;
+        }
+
+        /* Job Listings */
+        .job-listings {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .jobs-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .job-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-name {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .job-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .job-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #f1f3f4;
+            color: #666;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .salary {
+            font-weight: 600;
+            color: #28a745;
+            font-size: 1.1rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: white;
+            padding: 3rem 0;
+            margin: 3rem 0;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-form {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .job-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .job-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Hidden sections */
+        .hidden {
+            display: none;
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        /* Success message */
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Navigation active state */
+        .nav-active {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showHome()">JobDesk</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" onclick="showHome()" id="nav-home">Home</a></li>
+                    <li><a href="#" onclick="showJobs()" id="nav-jobs">Jobs</a></li>
+                    <li><a href="#" onclick="showCompanies()" id="nav-companies">Companies</a></li>
+                    <li><a href="#" onclick="showAbout()" id="nav-about">About</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-secondary" onclick="showLogin()">Login</a>
+                <a href="#" class="btn btn-primary" onclick="showRegister()">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home-section">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="hero-container">
+                    <h1>Find Your Dream Job Today</h1>
+                    <p>Discover thousands of job opportunities from top companies worldwide</p>
+                    <form class="search-form" onsubmit="searchJobs(event)">
+                        <input type="text" class="search-input" placeholder="Job title, keywords, or company" id="main-search">
+                        <button type="submit" class="search-btn">Search Jobs</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <section class="stats">
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number">25,000+</span>
+                        <span class="stat-label">Active Jobs</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5,000+</span>
+                        <span class="stat-label">Companies</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100,000+</span>
+                        <span class="stat-label">Job Seekers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15,000+</span>
+                        <span class="stat-label">Success Stories</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Jobs Preview -->
+            <section class="job-listings">
+                <h2 class="section-title">Featured Jobs</h2>
+                <div class="jobs-grid" id="featured-jobs">
+                    <!-- Featured jobs will be loaded here -->
+                </div>
+            </section>
+        </section>
+
+        <!-- Jobs Section -->
+        <section id="jobs-section" class="hidden">
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filters-container">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label>Location</label>
+                            <select class="filter-select" id="location-filter" onchange="filterJobs()">
+                                <option value="">All Locations</option>
+                                <option value="New York">New York</option>
+                                <option value="San Francisco">San Francisco</option>
+                                <option value="London">London</option>
+                                <option value="Toronto">Toronto</option>
+                                <option value="Remote">Remote</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Job Type</label>
+                            <select class="filter-select" id="type-filter" onchange="filterJobs()">
+                                <option value="">All Types</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Freelance">Freelance</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Experience</label>
+                            <select class="filter-select" id="experience-filter" onchange="filterJobs()">
+                                <option value="">All Levels</option>
+                                <option value="Entry Level">Entry Level</option>
+                                <option value="Mid Level">Mid Level</option>
+                                <option value="Senior Level">Senior Level</option>
+                                <option value="Executive">Executive</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Salary Range</label>
+                            <select class="filter-select" id="salary-filter" onchange="filterJobs()">
+                                <option value="">All Salaries</option>
+                                <option value="0-50000">$0 - $50,000</option>
+                                <option value="50000-100000">$50,000 - $100,000</option>
+                                <option value="100000-150000">$100,000 - $150,000</option>
+                                <option value="150000+">$150,000+</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Listings -->
+            <div class="job-listings">
+                <h2 class="section-title">All Jobs</h2>
+                <div class="jobs-grid" id="all-jobs">
+                    <!-- All jobs will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Companies Section -->
+        <section id="companies-section" class="hidden">
+            <div class="job-listings">
+                <h2 class="section-title">Top Companies</h2>
+                <div class="jobs-grid" id="companies-list">
+                    <!-- Companies will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-section" class="hidden">
+            <div class="job-listings">
+                <h2 class="section-title">About JobDesk</h2>
+                <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        JobDesk is the leading job portal connecting talented professionals with top companies worldwide. 
+                        Our mission is to make job searching simple, efficient, and successful for everyone.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Founded in 2020, we've helped over 100,000 job seekers find their dream careers and assisted 
+                        5,000+ companies in discovering exceptional talent.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        Whether you're a recent graduate looking for your first opportunity or an experienced professional 
+                        seeking your next challenge, JobDesk provides the tools and resources you need to succeed.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>JobDesk</h3>
+                <p>Your gateway to career success. Find jobs, connect with companies, and build your future.</p>
+            </div>
+            <div class="footer-section">
+                <h3>For Job Seekers</h3>
+                <ul>
+                    <li><a href="#">Browse Jobs</a></li>
+                    <li><a href="#">Career Advice</a></li>
+                    <li><a href="#">Resume Builder</a></li>
+                    <li><a href="#">Salary Guide</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>For Employers</h3>
+                <ul>
+                    <li><a href="#">Post a Job</a></li>
+                    <li><a href="#">Browse Resumes</a></li>
+                    <li><a href="#">Recruiting Solutions</a></li>
+                    <li><a href="#">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 JobDesk. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('login-modal')">&times;</span>
+            <h2>Login to JobDesk</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('register-modal')">&times;</span>
+            <h2>Join JobDesk</h2>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>I am a:</label>
+                    <select class="form-control" required>
+                        <option value="">Select one</option>
+                        <option value="job-seeker">Job Seeker</option>
+                        <option value="employer">Employer</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Job Detail Modal -->
+    <div id="job-detail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('job-detail-modal')">&times;</span>
+            <div id="job-detail-content">
+                <!-- Job details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Modal -->
+    <div id="apply-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('apply-modal')">&times;</span>
+            <h2>Apply for Position</h2>
+            <form onsubmit="handleApplication(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Resume</label>
+                    <input type="file" class="form-control" accept=".pdf,.doc,.docx" required>
+                </div>
+                <div class="form-group">
+                    <label>Cover Letter</label>
+                    <textarea class="form-control" placeholder="Tell us why you're perfect for this role..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample job data
+        const jobsData = [
+            {
+                id: 1,
+                title: "Senior Frontend Developer",
+                company: "TechCorp Inc.",
+                location: "San Francisco",
+                type: "Full-time",
+                experience: "Senior Level",
+                salary: "$120,000 - $150,000",
+                description: "We're looking for an experienced Frontend Developer to join our dynamic team. You'll be responsible for creating amazing user experiences using modern web technologies.",
+                requirements: "5+ years experience with React, JavaScript, and CSS. Strong problem-solving skills and attention to detail.",
+                tags: ["React", "JavaScript", "CSS", "TypeScript"],
+                posted: "2 days ago",
+                featured: true
+            },
+            {
+                id: 2,
+                title: "Data Scientist",
+                company: "DataAnalytics Pro",
+                location: "New York",
+                type: "Full-time",
+                experience: "Mid Level",
+                salary: "$95,000 - $130,000",
+                description: "Join our data science team to help derive insights from complex datasets and build predictive models that drive business decisions.",
+                requirements: "3+ years experience with Python, SQL, and machine learning frameworks. Advanced degree in related field preferred.",
+                tags: ["Python", "SQL", "Machine Learning", "Statistics"],
+                posted: "1 day ago",
+                featured: true
+            },
+            {
+                id: 3,
+                title: "Product Manager",
+                company: "Innovation Labs",
+                location: "Remote",
+                type: "Full-time",
+                experience: "Senior Level",
+                salary: "$110,000 - $140,000",
+                description: "Lead product strategy and development for our cutting-edge SaaS platform. Work with cross-functional teams to deliver exceptional products.",
+                requirements: "5+ years product management experience, preferably in SaaS. Strong analytical and communication skills.",
+                tags: ["Product Strategy", "SaaS", "Agile", "Analytics"],
+                posted: "3 days ago",
+                featured: true
+            },
+            {
+                id: 4,
+                title: "UX/UI Designer",
+                company: "Design Studio",
+                location: "London",
+                type: "Full-time",
+                experience: "Mid Level",
+                salary: "£45,000 - £65,000",
+                description: "Create beautiful and intuitive user interfaces for web and mobile applications. Collaborate with developers and stakeholders.",
+                requirements: "3+ years experience in UX/UI design. Proficiency in Figma, Sketch, and Adobe Creative Suite.",
+                tags: ["Figma", "Sketch", "UI Design", "UX Research"],
+                posted: "1 week ago",
+                featured: false
+            },
+            {
+                id: 5,
+                title: "DevOps Engineer",
+                company: "CloudTech Solutions",
+                location: "Toronto",
+                type: "Full-time",
+                experience: "Senior Level",
+                salary: "C$90,000 - C$120,000",
+                description: "Build and maintain our cloud infrastructure. Implement CI/CD pipelines and ensure high availability of our services.",
+                requirements: "4+ years experience with AWS/Azure, Docker, Kubernetes, and Infrastructure as Code.",
+                tags: ["AWS", "Docker", "Kubernetes", "CI/CD"],
+                posted: "5 days ago",
+                featured: false
+            },
+            {
+                id: 6,
+                title: "Marketing Specialist",
+                company: "Growth Marketing Co.",
+                location: "New York",
+                type: "Full-time",
+                experience: "Entry Level",
+                salary: "$50,000 - $70,000",
+                description: "Join our marketing team to develop and execute digital marketing campaigns across multiple channels.",
+                requirements: "1-2 years marketing experience. Knowledge of digital marketing tools and social media platforms.",
+                tags: ["Digital Marketing", "Social Media", "SEO", "Analytics"],
+                posted: "4 days ago",
+                featured: false
+            }
+        ];
+
+        const companiesData = [
+            {
+                name: "TechCorp Inc.",
+                description: "Leading technology company specializing in web applications",
+                employees: "500-1000",
+                industry: "Technology",
+                openJobs: 12
+            },
+            {
+                name: "DataAnalytics Pro",
+                description: "Data science and analytics consulting firm",
+                employees: "100-500",
+                industry: "Consulting",
+                openJobs: 8
+            },
+            {
+                name: "Innovation Labs",
+                description: "SaaS platform development and innovation",
+                employees: "50-100",
+                industry: "Software",
+                openJobs: 15
+            }
+        ];
+
+        // Current state
+        let currentSection = 'home';
+        let filteredJobs = jobsData;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeaturedJobs();
+            loadAllJobs();
+            loadCompanies();
+        });
+
+        // Navigation functions
+        function showHome() {
+            hideAllSections();
+            document.getElementById('home-section').classList.remove('hidden');
+            setActiveNav('nav-home');
+            currentSection = 'home';
+        }
+
+        function showJobs() {
